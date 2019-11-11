@@ -171,11 +171,14 @@ Output variables:
                      0, size, size, 1, put, 0, ITERATIONS->n_sample, i, root, &defect);
 
             /*  CHANGE THE ROOT NODE */
-            root = (root + c_info->root_shift) % c_info->num_procs;
+            //root = (root + c_info->root_shift) % c_info->num_procs;
 
             IMB_do_n_barriers (c_info->communicator, c_info->sync);
         }
         *time /= ITERATIONS->n_sample;
+        int world_rank;
+        MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+        printf("[%d]: %d iters %lf\n", world_rank, ITERATIONS->n_sample, *time * 1000000);
     }
 }
 

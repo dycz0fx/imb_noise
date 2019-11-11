@@ -168,6 +168,7 @@ Input variables:
 
 */
 {
+    //printf("[%d]: %d iters %f\n", c_info->w_rank, ITERATIONS->n_sample, time[0]*1000000);
     double scaled_time[MAX_TIME_ID];
 
     int i,i_gr;

@@ -76,16 +76,17 @@
 #include <signal.h>
 #include <papi.h>
 #include <sys/time.h>		/* for setitimer */
+#include <unistd.h>
 
 extern int num_alloc, num_free;
 
 
 /**********************************************************************/
-#define INTERVAL 100000
-#define NOISE 10000
-#define DELAY 0           //1 create noise, 0 no noise
+#define INTERVAL 10000
+#define NOISE 2000
+#define DELAY 1           //1 create noise, 0 no noise
 #define DELAY_ONE 1         //1 delay one node, 0 delay all nodes
-#define MAX_EXTRA_NOISE 100
+#define MAX_EXTRA_NOISE 10000
 long long interval, start, end, t=0, interval_v, start_v, end_v;
 void noise_generater_fixed(int sig) {
     interval = PAPI_get_real_usec() - end;
@@ -223,7 +224,7 @@ int main(int argc, char **argv)
     if (DELAY) {
         if (DELAY_ONE) {
             //delay one
-            if (world_rank == 3) {
+            if (world_rank == 6) {
                 struct itimerval it_val;	/* for setting itimer */
                 signal(SIGALRM, noise_generater_fixed);
                 it_val.it_value.tv_sec =     INTERVAL/1000000;
